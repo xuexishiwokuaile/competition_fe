@@ -1,12 +1,6 @@
-/**
- * Ant Design Pro v4 use `@ant-design/pro-layout` to handle Layout.
- *
- * @see You can view component api by: https://github.com/ant-design/ant-design-pro-layout
- */
 import ProLayout, { DefaultFooter, SettingDrawer } from '@ant-design/pro-layout';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useIntl, connect, history } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
@@ -25,40 +19,8 @@ const noMatch = (
     />
 );
 
-/** Use Authorized check all menu item */
-const menuDataRender = (menuList) =>
-    menuList.map((item) => {
-        const localItem = {
-            ...item,
-            children: item.children ? menuDataRender(item.children) : undefined,
-        };
-        return Authorized.check(item.authority, localItem, null);
-    });
-
 const defaultFooterDom = (
-    <DefaultFooter
-        copyright={`${new Date().getFullYear()} 蚂蚁集团体验技术部出品`}
-        links={[
-            {
-                key: 'Ant Design Pro',
-                title: 'Ant Design Pro',
-                href: 'https://pro.ant.design',
-                blankTarget: true,
-            },
-            {
-                key: 'github',
-                title: <GithubOutlined />,
-                href: 'https://github.com/ant-design/ant-design-pro',
-                blankTarget: true,
-            },
-            {
-                key: 'Ant Design',
-                title: 'Ant Design',
-                href: 'https://ant.design',
-                blankTarget: true,
-            },
-        ]}
-    />
+    <DefaultFooter copyright={`${new Date().getFullYear()} 陈安然@武汉大学计算机学院 出品`} />
 );
 
 const BasicLayout = (props) => {
@@ -78,7 +40,32 @@ const BasicLayout = (props) => {
             });
         }
     }, []);
+
+    const [authorized, setAuthorized] = useState({
+        authority: undefined,
+    });
     /** Init variables */
+    /** Use Authorized check all menu item */
+    let menuArr = [];
+    const menuDataRender = (menuList) => {
+        menuArr.push(menuList);
+        // menuList会变化，只能取第一次传入的menuList，即所有菜单项
+        const currentMenu = getMatchMenu(location.pathname || '/', menuArr[0]).pop();
+        // 写入当前组件权限
+        setAuthorized(
+            currentMenu || {
+                authority: undefined,
+            },
+        );
+        return menuList.map((item, i) => {
+            const localItem = {
+                ...item,
+                children: item.children ? menuDataRender(item.children) : undefined,
+            };
+            // 决定组件是否在侧边菜单栏展示
+            return Authorized.check(item.authority, localItem, null);
+        });
+    };
 
     const handleMenuCollapse = (payload) => {
         if (dispatch) {
@@ -89,13 +76,11 @@ const BasicLayout = (props) => {
         }
     }; // get children authority
 
-    const authorized = useMemo(
-        () =>
-            getMatchMenu(location.pathname || '/', menuDataRef.current).pop() || {
-                authority: undefined,
-            },
-        [location.pathname],
-    );
+    // const authorized = useMemo(
+    //     () => getMatchMenu(location.pathname || '/', menuDataRef.current).pop(),
+    //     [location.pathname],
+    // );
+
     const { formatMessage } = useIntl();
     return (
         <>
