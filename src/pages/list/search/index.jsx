@@ -45,7 +45,7 @@ class Search extends Component {
         const tabList = [
             {
                 key: 'competitions',
-                tab: '文章',
+                tab: '竞赛',
             },
             {
                 key: 'projects',

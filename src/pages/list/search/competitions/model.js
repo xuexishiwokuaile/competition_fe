@@ -2,7 +2,7 @@
  * @Author: chenanran
  * @Date: 2021-04-08 13:19:41
  */
-import { queryFakeList } from './service';
+import { queryFakeList, findAllTypes } from './service';
 const Model = {
     namespace: 'listAndsearchAndcompetitions',
     state: {
@@ -16,12 +16,11 @@ const Model = {
                 payload: Array.isArray(response) ? response : [],
             });
         },
-
-        *appendFetch({ payload }, { call, put }) {
-            const response = yield call(queryFakeList, payload);
+        *findAllTypes({ payload }, { call, put }) {
+            const response = yield call(findAllTypes);
             yield put({
-                type: 'appendList',
-                payload: Array.isArray(response) ? response : [],
+                type: 'setTypes',
+                payload: response,
             });
         },
     },
@@ -29,9 +28,8 @@ const Model = {
         queryList(state, action) {
             return { ...state, list: action.payload };
         },
-
-        appendList(state, action) {
-            return { ...state, list: state.list.concat(action.payload) };
+        setTypes(state, { payload }) {
+            return { ...state, types: payload };
         },
     },
 };

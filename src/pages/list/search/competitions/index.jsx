@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, List, Row, Select, Tag } from 'antd';
 import { LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
@@ -10,31 +10,51 @@ const { Option } = Select;
 const FormItem = Form.Item;
 const pageSize = 5;
 
-const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list }, loading }) => {
+const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types }, loading }) => {
     const [form] = Form.useForm();
+    const [listData, setListData] = useState([]);
+    const [offset, setOffset] = useState(1);
     useEffect(() => {
         dispatch({
             type: 'listAndsearchAndcompetitions/fetch',
             payload: {
-                count: 5,
+                count: pageSize,
             },
         });
     }, []);
+
+    useEffect(() => {
+        // 首次渲染，截取pageSize位
+        const temp = [];
+        if (list.length) {
+            for (let i = 0; i < pageSize; i++) {
+                temp.push(list[i]);
+            }
+        }
+        setListData(temp);
+    }, [list]);
 
     const setOwner = () => {
         form.setFieldsValue({
             owner: ['wzj'],
         });
     };
-
     const fetchMore = () => {
-        dispatch({
-            type: 'listAndsearchAndcompetitions/appendFetch',
-            payload: {
-                count: pageSize,
-            },
-        });
+        const temp = [];
+        for (let i = pageSize * offset; i < pageSize * offset + pageSize; i++) {
+            if (i >= list.length) break;
+            temp.push(list[i]);
+        }
+        setListData(listData.concat(temp));
+        setOffset(offset + 1);
     };
+
+    // 获取所有竞赛种类
+    useEffect(() => {
+        dispatch({
+            type: 'listAndsearchAndcompetitions/findAllTypes',
+        });
+    }, []);
 
     const owners = [
         {
@@ -115,7 +135,7 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list }, loadin
             },
         },
     };
-    const loadMore = list.length > 0 && (
+    const loadMore = listData.length > 0 && (
         <div
             style={{
                 textAlign: 'center',
@@ -158,7 +178,7 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list }, loadin
                     }}
                 >
                     <StandardFormRow
-                        title="所属类目"
+                        title="所属种类"
                         block
                         style={{
                             paddingBottom: 11,
@@ -166,18 +186,12 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list }, loadin
                     >
                         <FormItem name="category">
                             <TagSelect expandable>
-                                <TagSelect.Option value="cat1">类目一</TagSelect.Option>
-                                <TagSelect.Option value="cat2">类目二</TagSelect.Option>
-                                <TagSelect.Option value="cat3">类目三</TagSelect.Option>
-                                <TagSelect.Option value="cat4">类目四</TagSelect.Option>
-                                <TagSelect.Option value="cat5">类目五</TagSelect.Option>
-                                <TagSelect.Option value="cat6">类目六</TagSelect.Option>
-                                <TagSelect.Option value="cat7">类目七</TagSelect.Option>
-                                <TagSelect.Option value="cat8">类目八</TagSelect.Option>
-                                <TagSelect.Option value="cat9">类目九</TagSelect.Option>
-                                <TagSelect.Option value="cat10">类目十</TagSelect.Option>
-                                <TagSelect.Option value="cat11">类目十一</TagSelect.Option>
-                                <TagSelect.Option value="cat12">类目十二</TagSelect.Option>
+                                {types &&
+                                    types.map((item) => (
+                                        <TagSelect.Option value={item.typeName}>
+                                            {item.typeName}
+                                        </TagSelect.Option>
+                                    ))}
                             </TagSelect>
                         </FormItem>
                     </StandardFormRow>
@@ -238,11 +252,11 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list }, loadin
             >
                 <List
                     size="large"
-                    loading={list.length === 0 ? loading : false}
+                    loading={listData.length === 0 ? loading : false}
                     rowKey="id"
                     itemLayout="vertical"
                     loadMore={loadMore}
-                    dataSource={list}
+                    dataSource={listData}
                     renderItem={(item) => (
                         <List.Item
                             key={item.id}
