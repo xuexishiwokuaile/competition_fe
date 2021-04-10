@@ -4,12 +4,12 @@ import React, { Component, useState, useRef } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import { Link, connect } from 'umi';
 import Projects from './components/Projects';
-import Articles from './components/Articles';
+import Competitions from './components/Competitions';
 import Applications from './components/Applications';
 import styles from './Center.less';
 const operationTabList = [
     {
-        key: 'articles',
+        key: 'competitions',
         tab: (
             <span>
                 文章{' '}
@@ -143,7 +143,7 @@ class Center extends Component {
     //   return null;
     // }
     state = {
-        tabKey: 'articles',
+        tabKey: 'competitions',
     };
     input = undefined;
 
@@ -174,8 +174,8 @@ class Center extends Component {
             return <Applications />;
         }
 
-        if (tabKey === 'articles') {
-            return <Articles />;
+        if (tabKey === 'competitions') {
+            return <Competitions />;
         }
 
         return null;

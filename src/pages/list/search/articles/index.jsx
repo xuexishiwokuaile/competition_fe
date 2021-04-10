@@ -10,11 +10,11 @@ const { Option } = Select;
 const FormItem = Form.Item;
 const pageSize = 5;
 
-const Articles = ({ dispatch, listAndsearchAndarticles: { list }, loading }) => {
+const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list }, loading }) => {
     const [form] = Form.useForm();
     useEffect(() => {
         dispatch({
-            type: 'listAndsearchAndarticles/fetch',
+            type: 'listAndsearchAndcompetitions/fetch',
             payload: {
                 count: 5,
             },
@@ -29,7 +29,7 @@ const Articles = ({ dispatch, listAndsearchAndarticles: { list }, loading }) => 
 
     const fetchMore = () => {
         dispatch({
-            type: 'listAndsearchAndarticles/appendFetch',
+            type: 'listAndsearchAndcompetitions/appendFetch',
             payload: {
                 count: pageSize,
             },
@@ -150,7 +150,7 @@ const Articles = ({ dispatch, listAndsearchAndarticles: { list }, loading }) => 
                     }}
                     onValuesChange={() => {
                         dispatch({
-                            type: 'listAndsearchAndarticles/fetch',
+                            type: 'listAndsearchAndcompetitions/fetch',
                             payload: {
                                 count: 8,
                             },
@@ -276,7 +276,7 @@ const Articles = ({ dispatch, listAndsearchAndarticles: { list }, loading }) => 
     );
 };
 
-export default connect(({ listAndsearchAndarticles, loading }) => ({
-    listAndsearchAndarticles,
-    loading: loading.models.listAndsearchAndarticles,
-}))(Articles);
+export default connect(({ listAndsearchAndcompetitions, loading }) => ({
+    listAndsearchAndcompetitions,
+    loading: loading.models.listAndsearchAndcompetitions,
+}))(Competitions);

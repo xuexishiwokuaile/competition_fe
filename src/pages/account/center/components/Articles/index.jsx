@@ -5,7 +5,7 @@ import { connect } from 'umi';
 import ArticleListContent from '../ArticleListContent';
 import styles from './index.less';
 
-const Articles = (props) => {
+const Competitions = (props) => {
     const { list } = props;
 
     const IconText = ({ icon, text }) => (
@@ -53,4 +53,4 @@ const Articles = (props) => {
 
 export default connect(({ accountAndcenter }) => ({
     list: accountAndcenter.list,
-}))(Articles);
+}))(Competitions);

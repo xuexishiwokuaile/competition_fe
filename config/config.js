@@ -152,13 +152,13 @@ export default defineConfig({
                                             routes: [
                                                 {
                                                     path: '/list/search',
-                                                    redirect: '/list/search/articles',
+                                                    redirect: '/list/search/competitions',
                                                 },
                                                 {
-                                                    name: 'articles',
+                                                    name: 'competitions',
                                                     icon: 'smile',
-                                                    path: '/list/search/articles',
-                                                    component: './list/search/articles',
+                                                    path: '/list/search/competitions',
+                                                    component: './list/search/competitions',
                                                 },
                                                 {
                                                     name: 'projects',

@@ -1,6 +1,10 @@
+/*
+ * @Author: chenanran
+ * @Date: 2021-04-08 13:19:41
+ */
 import { queryFakeList } from './service';
 const Model = {
-    namespace: 'listAndsearchAndarticles',
+    namespace: 'listAndsearchAndcompetitions',
     state: {
         list: [],
     },

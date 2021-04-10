@@ -26,7 +26,7 @@ export default {
     'menu.list.basic-list': 'Daftar Dasar',
     'menu.list.card-list': 'Daftar Kartu',
     'menu.list.search-list': 'Daftar Pencarian',
-    'menu.list.search-list.articles': 'Daftar Pencarian(artikel)',
+    'menu.list.search-list.competitions': 'Daftar Pencarian(artikel)',
     'menu.list.search-list.projects': 'Daftar Pencarian(projek)',
     'menu.list.search-list.applications': 'Daftar Pencarian(aplikasi)',
     'menu.profile': 'Profil',

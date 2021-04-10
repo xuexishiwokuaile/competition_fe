@@ -9,8 +9,8 @@ class Search extends Component {
         const url = match.url === '/' ? '' : match.url;
 
         switch (key) {
-            case 'articles':
-                history.push(`${url}/articles`);
+            case 'competitions':
+                history.push(`${url}/competitions`);
                 break;
 
             case 'applications':
@@ -38,13 +38,13 @@ class Search extends Component {
             return tabKey;
         }
 
-        return 'articles';
+        return 'competitions';
     };
 
     render() {
         const tabList = [
             {
-                key: 'articles',
+                key: 'competitions',
                 tab: '文章',
             },
             {

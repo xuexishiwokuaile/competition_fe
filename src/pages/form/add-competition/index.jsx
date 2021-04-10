@@ -220,6 +220,7 @@ const BasicForm = (props) => {
                             beforeUpload={() => false}
                             maxCount={1}
                             accept="image/*"
+                            directory={false}
                         >
                             <p>点击或拖拽来上传</p>
                         </Dragger>
