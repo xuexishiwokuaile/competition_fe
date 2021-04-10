@@ -1,3 +1,7 @@
+/*
+ * @Author: chenanran
+ * @Date: 2021-04-08 13:19:41
+ */
 export default {
     'menu.welcome': '欢迎',
     'menu.more-blocks': '更多区块',
@@ -15,7 +19,7 @@ export default {
     'menu.exception.404': '404',
     'menu.exception.500': '500',
     'menu.form': '表单页',
-    'menu.form.add-competition': '基础表单',
+    'menu.form.add-competition': '添加竞赛',
     'menu.form.step-form': '分步表单',
     'menu.form.step-form.info': '分步表单（填写转账信息）',
     'menu.form.step-form.confirm': '分步表单（确认转账信息）',

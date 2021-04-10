@@ -1,7 +1,21 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Button, Card, DatePicker, Input, Form, InputNumber, Radio, Select, Tooltip } from 'antd';
+import {
+    Button,
+    Card,
+    DatePicker,
+    Input,
+    Form,
+    InputNumber,
+    Radio,
+    Select,
+    Tooltip,
+    Checkbox,
+    Row,
+    Col,
+    Upload,
+} from 'antd';
 import { connect, FormattedMessage, formatMessage } from 'umi';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import styles from './style.less';
 const FormItem = Form.Item;
@@ -10,9 +24,10 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 const BasicForm = (props) => {
-    const { submitting } = props;
+    const { submitting, types, dispatch } = props;
+    const { Dragger } = Upload;
+    const { type } = types;
     const [form] = Form.useForm();
-    const [showPublicUsers, setShowPublicUsers] = React.useState(false);
     const formItemLayout = {
         labelCol: {
             xs: {
@@ -47,11 +62,27 @@ const BasicForm = (props) => {
         },
     };
 
-    const onFinish = (values) => {
-        const { dispatch } = props;
+    useEffect(() => {
         dispatch({
-            type: 'formAndbasicForm/submitRegularForm',
-            payload: values,
+            type: 'formAddCompetition/findAllTypes',
+        });
+    }, []);
+
+    let selectedTypes = [];
+    let image;
+
+    const onFinish = (values) => {
+        const typeName = selectedTypes.toString();
+        // 后端只能接收formdata，需要转换后再发送
+        const formData = new FormData();
+        for (let key in values) {
+            formData.append(key, values[key]);
+        }
+        formData.append('typeName', typeName);
+        formData.append('image', image);
+        dispatch({
+            type: 'formAddCompetition/submitRegularForm',
+            payload: formData,
         });
     };
 
@@ -60,9 +91,13 @@ const BasicForm = (props) => {
         console.log('Failed:', errorInfo);
     };
 
-    const onValuesChange = (changedValues) => {
-        const { publicType } = changedValues;
-        if (publicType) setShowPublicUsers(publicType === '2');
+    const onChange = (list) => {
+        selectedTypes = list;
+    };
+
+    const onFileChange = (info) => {
+        // 只上传最新选择的文件
+        image = info.file;
     };
 
     return (
@@ -80,12 +115,11 @@ const BasicForm = (props) => {
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
-                    onValuesChange={onValuesChange}
                 >
                     <FormItem
                         {...formItemLayout}
                         label={<FormattedMessage id="formandadd-competition.title.label" />}
-                        name="title"
+                        name="name"
                         rules={[
                             {
                                 required: true,
@@ -103,16 +137,15 @@ const BasicForm = (props) => {
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label={<FormattedMessage id="formandadd-competition.date.label" />}
+                        label={
+                            <span>
+                                <FormattedMessage id="formandadd-competition.date.label" />
+                                <em className={styles.optional}>
+                                    <FormattedMessage id="formandadd-competition.form.optional" />
+                                </em>
+                            </span>
+                        }
                         name="date"
-                        rules={[
-                            {
-                                required: true,
-                                message: formatMessage({
-                                    id: 'formandadd-competition.date.required',
-                                }),
-                            },
-                        ]}
                     >
                         <RangePicker
                             style={{
@@ -130,13 +163,13 @@ const BasicForm = (props) => {
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label={<FormattedMessage id="formandadd-competition.goal.label" />}
-                        name="goal"
+                        label={<FormattedMessage id="formandadd-competition.detail.label" />}
+                        name="detail"
                         rules={[
                             {
                                 required: true,
                                 message: formatMessage({
-                                    id: 'formandadd-competition.goal.required',
+                                    id: 'formandadd-competition.detail.required',
                                 }),
                             },
                         ]}
@@ -146,60 +179,27 @@ const BasicForm = (props) => {
                                 minHeight: 32,
                             }}
                             placeholder={formatMessage({
-                                id: 'formandadd-competition.goal.placeholder',
+                                id: 'formandadd-competition.detail.placeholder',
                             })}
                             rows={4}
                         />
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label={<FormattedMessage id="formandadd-competition.standard.label" />}
-                        name="standard"
+                        label={<FormattedMessage id="formandadd-competition.url.label" />}
+                        name="url"
                         rules={[
                             {
                                 required: true,
                                 message: formatMessage({
-                                    id: 'formandadd-competition.standard.required',
+                                    id: 'formandadd-competition.url.required',
                                 }),
                             },
                         ]}
-                    >
-                        <TextArea
-                            style={{
-                                minHeight: 32,
-                            }}
-                            placeholder={formatMessage({
-                                id: 'formandadd-competition.standard.placeholder',
-                            })}
-                            rows={4}
-                        />
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayout}
-                        label={
-                            <span>
-                                <FormattedMessage id="formandadd-competition.client.label" />
-                                <em className={styles.optional}>
-                                    <FormattedMessage id="formandadd-competition.form.optional" />
-                                    <Tooltip
-                                        title={
-                                            <FormattedMessage id="formandadd-competition.label.tooltip" />
-                                        }
-                                    >
-                                        <InfoCircleOutlined
-                                            style={{
-                                                marginRight: 4,
-                                            }}
-                                        />
-                                    </Tooltip>
-                                </em>
-                            </span>
-                        }
-                        name="client"
                     >
                         <Input
                             placeholder={formatMessage({
-                                id: 'formandadd-competition.client.placeholder',
+                                id: 'formandadd-competition.url.placeholder',
                             })}
                         />
                     </FormItem>
@@ -207,7 +207,7 @@ const BasicForm = (props) => {
                         {...formItemLayout}
                         label={
                             <span>
-                                <FormattedMessage id="formandadd-competition.invites.label" />
+                                <FormattedMessage id="formandadd-competition.image.label" />
                                 <em className={styles.optional}>
                                     <FormattedMessage id="formandadd-competition.form.optional" />
                                 </em>
@@ -215,78 +215,65 @@ const BasicForm = (props) => {
                         }
                         name="invites"
                     >
-                        <Input
-                            placeholder={formatMessage({
-                                id: 'formandadd-competition.invites.placeholder',
-                            })}
-                        />
+                        <Dragger
+                            onChange={onFileChange}
+                            beforeUpload={() => false}
+                            maxCount={1}
+                            accept="image/*"
+                        >
+                            <p>点击或拖拽来上传</p>
+                        </Dragger>
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label={
                             <span>
-                                <FormattedMessage id="formandadd-competition.weight.label" />
-                                <em className={styles.optional}>
-                                    <FormattedMessage id="formandadd-competition.form.optional" />
-                                </em>
+                                <FormattedMessage id="formandadd-competition.count.label" />
                             </span>
                         }
-                        name="weight"
+                        rules={[
+                            {
+                                required: true,
+                                message: formatMessage({
+                                    id: 'formandadd-competition.count.required',
+                                }),
+                            },
+                        ]}
+                        name="count"
                     >
                         <InputNumber
                             placeholder={formatMessage({
-                                id: 'formandadd-competition.weight.placeholder',
+                                id: 'formandadd-competition.count.placeholder',
                             })}
                             min={0}
                             max={100}
                         />
-                        <span className="ant-form-text">%</span>
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label={<FormattedMessage id="formandadd-competition.public.label" />}
-                        help={<FormattedMessage id="formandadd-competition.label.help" />}
-                        name="publicType"
+                        rules={[
+                            {
+                                required: true,
+                                message: formatMessage({
+                                    id: 'formandadd-competition.count.required',
+                                }),
+                            },
+                        ]}
                     >
                         <div>
-                            <Radio.Group>
-                                <Radio value="1">
-                                    <FormattedMessage id="formandadd-competition.radio.public" />
-                                </Radio>
-                                <Radio value="2">
-                                    <FormattedMessage id="formandadd-competition.radio.partially-public" />
-                                </Radio>
-                                <Radio value="3">
-                                    <FormattedMessage id="formandadd-competition.radio.private" />
-                                </Radio>
-                            </Radio.Group>
-                            <FormItem
-                                style={{
-                                    marginBottom: 0,
-                                }}
-                                name="publicUsers"
-                            >
-                                <Select
-                                    mode="multiple"
-                                    placeholder={formatMessage({
-                                        id: 'formandadd-competition.publicUsers.placeholder',
-                                    })}
-                                    style={{
-                                        margin: '8px 0',
-                                        display: showPublicUsers ? 'block' : 'none',
-                                    }}
-                                >
-                                    <Option value="1">
-                                        <FormattedMessage id="formandadd-competition.option.A" />
-                                    </Option>
-                                    <Option value="2">
-                                        <FormattedMessage id="formandadd-competition.option.B" />
-                                    </Option>
-                                    <Option value="3">
-                                        <FormattedMessage id="formandadd-competition.option.C" />
-                                    </Option>
-                                </Select>
-                            </FormItem>
+                            <Checkbox.Group onChange={onChange}>
+                                <Row>
+                                    {type &&
+                                        type.map((item) => (
+                                            <Col span={8}>
+                                                <Checkbox value={item.typeName} key={item.typeId}>
+                                                    {item.typeName}
+                                                </Checkbox>
+                                            </Col>
+                                        ))}
+                                </Row>
+                            </Checkbox.Group>
                         </div>
                     </FormItem>
                     <FormItem
@@ -298,13 +285,6 @@ const BasicForm = (props) => {
                         <Button type="primary" htmlType="submit" loading={submitting}>
                             <FormattedMessage id="formandadd-competition.form.submit" />
                         </Button>
-                        <Button
-                            style={{
-                                marginLeft: 8,
-                            }}
-                        >
-                            <FormattedMessage id="formandadd-competition.form.save" />
-                        </Button>
                     </FormItem>
                 </Form>
             </Card>
@@ -312,6 +292,7 @@ const BasicForm = (props) => {
     );
 };
 
-export default connect(({ loading }) => ({
-    submitting: loading.effects['formAndbasicForm/submitRegularForm'],
+export default connect(({ loading, formAddCompetition }) => ({
+    submitting: loading.effects['formAddCompetition/submitRegularForm'],
+    types: formAddCompetition,
 }))(BasicForm);
