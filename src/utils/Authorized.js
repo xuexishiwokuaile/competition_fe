@@ -1,3 +1,7 @@
+/*
+ * @Author: chenanran
+ * @Date: 2021-04-08 13:19:41
+ */
 import RenderAuthorize from '@/components/Authorized';
 import { getAuthority } from './authority';
 /* eslint-disable eslint-comments/disable-enable-pair */

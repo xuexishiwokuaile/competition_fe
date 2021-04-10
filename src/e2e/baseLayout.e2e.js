@@ -1,3 +1,7 @@
+/*
+ * @Author: chenanran
+ * @Date: 2021-04-08 13:19:36
+ */
 const { uniq } = require('lodash');
 const RouterConfig = require('../../config/config').default.routes;
 

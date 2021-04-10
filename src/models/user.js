@@ -1,3 +1,7 @@
+/*
+ * @Author: chenanran
+ * @Date: 2021-04-08 13:19:41
+ */
 import { queryCurrent, query as queryUsers } from '@/services/user';
 const UserModel = {
     namespace: 'user',

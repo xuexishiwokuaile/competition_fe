@@ -27,7 +27,7 @@ const LoginMessage = ({ content }) => (
 
 const Login = (props) => {
     const { userLogin = {}, submitting } = props;
-    const { status, type: loginType } = userLogin;
+    const { code, type: loginType } = userLogin;
     const [type, setType] = useState('account');
     const intl = useIntl();
 
@@ -77,7 +77,7 @@ const Login = (props) => {
                     />
                 </Tabs>
 
-                {status === 'error' && loginType === 'account' && !submitting && (
+                {code === '1' && loginType === 'account' && !submitting && (
                     <LoginMessage
                         content={intl.formatMessage({
                             id: 'pages.login.accountLogin.errorMessage',
@@ -88,7 +88,7 @@ const Login = (props) => {
                 {type === 'account' && (
                     <>
                         <ProFormText
-                            name="userName"
+                            name="name"
                             fieldProps={{
                                 size: 'large',
                                 prefix: <UserOutlined className={styles.prefixIcon} />,
@@ -134,7 +134,7 @@ const Login = (props) => {
                     </>
                 )}
 
-                {status === 'error' && loginType === 'mobile' && !submitting && (
+                {code === '1' && loginType === 'mobile' && !submitting && (
                     <LoginMessage content="验证码错误" />
                 )}
                 {type === 'mobile' && (
@@ -219,32 +219,7 @@ const Login = (props) => {
                         />
                     </>
                 )}
-                <div
-                    style={{
-                        marginBottom: 24,
-                    }}
-                >
-                    <ProFormCheckbox noStyle name="autoLogin">
-                        <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
-                    </ProFormCheckbox>
-                    <a
-                        style={{
-                            float: 'right',
-                        }}
-                    >
-                        <FormattedMessage
-                            id="pages.login.forgotPassword"
-                            defaultMessage="忘记密码"
-                        />
-                    </a>
-                </div>
             </ProForm>
-            <Space className={styles.other}>
-                <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" />
-                <AlipayCircleOutlined className={styles.icon} />
-                <TaobaoCircleOutlined className={styles.icon} />
-                <WeiboCircleOutlined className={styles.icon} />
-            </Space>
         </div>
     );
 };

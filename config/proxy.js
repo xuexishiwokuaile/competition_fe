@@ -12,10 +12,10 @@
 export default {
     dev: {
         '/api/': {
-            target: 'https://preview.pro.ant.design', // http://competitionsys.top
+            target: 'http://localhost:3000/', // 配置代理，以/api开头的请求都会转发到这里
             changeOrigin: true,
             pathRewrite: {
-                '^': '',
+                '^/api': '',
             },
         },
     },

@@ -19,10 +19,6 @@ const noMatch = (
     />
 );
 
-const defaultFooterDom = (
-    <DefaultFooter copyright={`${new Date().getFullYear()} 陈安然@武汉大学计算机学院 出品`} />
-);
-
 const BasicLayout = (props) => {
     const {
         dispatch,
@@ -118,13 +114,6 @@ const BasicLayout = (props) => {
                     ) : (
                         <span>{route.breadcrumbName}</span>
                     );
-                }}
-                footerRender={() => {
-                    if (settings.footerRender || settings.footerRender === undefined) {
-                        return defaultFooterDom;
-                    }
-
-                    return null;
                 }}
                 menuDataRender={menuDataRender}
                 rightContentRender={() => <RightContent />}
