@@ -15,7 +15,7 @@ export default {
     'menu.dashboard.monitor': '監控頁',
     'menu.dashboard.workplace': '工作臺',
     'menu.form': '表單頁',
-    'menu.form.basic-form': '基礎表單',
+    'menu.form.add-competition': '基礎表單',
     'menu.form.step-form': '分步表單',
     'menu.form.step-form.info': '分步表單（填寫轉賬信息）',
     'menu.form.step-form.confirm': '分步表單（確認轉賬信息）',

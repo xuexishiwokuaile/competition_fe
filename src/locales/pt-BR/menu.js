@@ -15,7 +15,7 @@ export default {
     'menu.exception.404': '404',
     'menu.exception.500': '500',
     'menu.form': 'Formulário',
-    'menu.form.basic-form': 'Formulário Básico',
+    'menu.form.add-competition': 'Formulário Básico',
     'menu.form.step-form': 'Formulário Assistido',
     'menu.form.step-form.info': 'Formulário Assistido(gravar informações de transferência)',
     'menu.form.step-form.confirm': 'Formulário Assistido(confirmar informações de transferência)',

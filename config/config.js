@@ -114,13 +114,13 @@ export default defineConfig({
                                     routes: [
                                         {
                                             path: '/',
-                                            redirect: '/form/basic-form',
+                                            redirect: '/form/add-competition',
                                         },
                                         {
-                                            name: 'basic-form',
+                                            name: 'add-competition',
                                             icon: 'smile',
-                                            path: '/form/basic-form',
-                                            component: './form/basic-form',
+                                            path: '/form/add-competition',
+                                            component: './form/add-competition',
                                         },
                                         {
                                             name: 'step-form',

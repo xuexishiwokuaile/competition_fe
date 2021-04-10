@@ -15,7 +15,7 @@ export default {
     'menu.exception.404': '404',
     'menu.exception.500': '500',
     'menu.form': 'Form',
-    'menu.form.basic-form': 'Form Dasar',
+    'menu.form.add-competition': 'Form Dasar',
     'menu.form.step-form': 'Form Bertahap',
     'menu.form.step-form.info': 'Form Bertahap(menulis informasi yang dibagikan)',
     'menu.form.step-form.confirm': 'Form Bertahap(konfirmasi informasi yang dibagikan)',

@@ -1,3 +1,7 @@
+/*
+ * @Author: chenanran
+ * @Date: 2021-04-08 13:19:41
+ */
 export default {
     'dashboardandmonitor.monitor.trading-activity': 'Real-Time Trading Activity',
     'dashboardandmonitor.monitor.total-transactions': 'Total transactions today',

@@ -66,7 +66,7 @@ const BasicForm = (props) => {
     };
 
     return (
-        <PageContainer content={<FormattedMessage id="formandbasic-form.basic.description" />}>
+        <PageContainer content={<FormattedMessage id="formandadd-competition.basic.description" />}>
             <Card bordered={false}>
                 <Form
                     hideRequiredMark
@@ -84,32 +84,32 @@ const BasicForm = (props) => {
                 >
                     <FormItem
                         {...formItemLayout}
-                        label={<FormattedMessage id="formandbasic-form.title.label" />}
+                        label={<FormattedMessage id="formandadd-competition.title.label" />}
                         name="title"
                         rules={[
                             {
                                 required: true,
                                 message: formatMessage({
-                                    id: 'formandbasic-form.title.required',
+                                    id: 'formandadd-competition.title.required',
                                 }),
                             },
                         ]}
                     >
                         <Input
                             placeholder={formatMessage({
-                                id: 'formandbasic-form.title.placeholder',
+                                id: 'formandadd-competition.title.placeholder',
                             })}
                         />
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label={<FormattedMessage id="formandbasic-form.date.label" />}
+                        label={<FormattedMessage id="formandadd-competition.date.label" />}
                         name="date"
                         rules={[
                             {
                                 required: true,
                                 message: formatMessage({
-                                    id: 'formandbasic-form.date.required',
+                                    id: 'formandadd-competition.date.required',
                                 }),
                             },
                         ]}
@@ -120,23 +120,23 @@ const BasicForm = (props) => {
                             }}
                             placeholder={[
                                 formatMessage({
-                                    id: 'formandbasic-form.placeholder.start',
+                                    id: 'formandadd-competition.placeholder.start',
                                 }),
                                 formatMessage({
-                                    id: 'formandbasic-form.placeholder.end',
+                                    id: 'formandadd-competition.placeholder.end',
                                 }),
                             ]}
                         />
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label={<FormattedMessage id="formandbasic-form.goal.label" />}
+                        label={<FormattedMessage id="formandadd-competition.goal.label" />}
                         name="goal"
                         rules={[
                             {
                                 required: true,
                                 message: formatMessage({
-                                    id: 'formandbasic-form.goal.required',
+                                    id: 'formandadd-competition.goal.required',
                                 }),
                             },
                         ]}
@@ -146,20 +146,20 @@ const BasicForm = (props) => {
                                 minHeight: 32,
                             }}
                             placeholder={formatMessage({
-                                id: 'formandbasic-form.goal.placeholder',
+                                id: 'formandadd-competition.goal.placeholder',
                             })}
                             rows={4}
                         />
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label={<FormattedMessage id="formandbasic-form.standard.label" />}
+                        label={<FormattedMessage id="formandadd-competition.standard.label" />}
                         name="standard"
                         rules={[
                             {
                                 required: true,
                                 message: formatMessage({
-                                    id: 'formandbasic-form.standard.required',
+                                    id: 'formandadd-competition.standard.required',
                                 }),
                             },
                         ]}
@@ -169,7 +169,7 @@ const BasicForm = (props) => {
                                 minHeight: 32,
                             }}
                             placeholder={formatMessage({
-                                id: 'formandbasic-form.standard.placeholder',
+                                id: 'formandadd-competition.standard.placeholder',
                             })}
                             rows={4}
                         />
@@ -178,12 +178,12 @@ const BasicForm = (props) => {
                         {...formItemLayout}
                         label={
                             <span>
-                                <FormattedMessage id="formandbasic-form.client.label" />
+                                <FormattedMessage id="formandadd-competition.client.label" />
                                 <em className={styles.optional}>
-                                    <FormattedMessage id="formandbasic-form.form.optional" />
+                                    <FormattedMessage id="formandadd-competition.form.optional" />
                                     <Tooltip
                                         title={
-                                            <FormattedMessage id="formandbasic-form.label.tooltip" />
+                                            <FormattedMessage id="formandadd-competition.label.tooltip" />
                                         }
                                     >
                                         <InfoCircleOutlined
@@ -199,7 +199,7 @@ const BasicForm = (props) => {
                     >
                         <Input
                             placeholder={formatMessage({
-                                id: 'formandbasic-form.client.placeholder',
+                                id: 'formandadd-competition.client.placeholder',
                             })}
                         />
                     </FormItem>
@@ -207,9 +207,9 @@ const BasicForm = (props) => {
                         {...formItemLayout}
                         label={
                             <span>
-                                <FormattedMessage id="formandbasic-form.invites.label" />
+                                <FormattedMessage id="formandadd-competition.invites.label" />
                                 <em className={styles.optional}>
-                                    <FormattedMessage id="formandbasic-form.form.optional" />
+                                    <FormattedMessage id="formandadd-competition.form.optional" />
                                 </em>
                             </span>
                         }
@@ -217,7 +217,7 @@ const BasicForm = (props) => {
                     >
                         <Input
                             placeholder={formatMessage({
-                                id: 'formandbasic-form.invites.placeholder',
+                                id: 'formandadd-competition.invites.placeholder',
                             })}
                         />
                     </FormItem>
@@ -225,9 +225,9 @@ const BasicForm = (props) => {
                         {...formItemLayout}
                         label={
                             <span>
-                                <FormattedMessage id="formandbasic-form.weight.label" />
+                                <FormattedMessage id="formandadd-competition.weight.label" />
                                 <em className={styles.optional}>
-                                    <FormattedMessage id="formandbasic-form.form.optional" />
+                                    <FormattedMessage id="formandadd-competition.form.optional" />
                                 </em>
                             </span>
                         }
@@ -235,7 +235,7 @@ const BasicForm = (props) => {
                     >
                         <InputNumber
                             placeholder={formatMessage({
-                                id: 'formandbasic-form.weight.placeholder',
+                                id: 'formandadd-competition.weight.placeholder',
                             })}
                             min={0}
                             max={100}
@@ -244,20 +244,20 @@ const BasicForm = (props) => {
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label={<FormattedMessage id="formandbasic-form.public.label" />}
-                        help={<FormattedMessage id="formandbasic-form.label.help" />}
+                        label={<FormattedMessage id="formandadd-competition.public.label" />}
+                        help={<FormattedMessage id="formandadd-competition.label.help" />}
                         name="publicType"
                     >
                         <div>
                             <Radio.Group>
                                 <Radio value="1">
-                                    <FormattedMessage id="formandbasic-form.radio.public" />
+                                    <FormattedMessage id="formandadd-competition.radio.public" />
                                 </Radio>
                                 <Radio value="2">
-                                    <FormattedMessage id="formandbasic-form.radio.partially-public" />
+                                    <FormattedMessage id="formandadd-competition.radio.partially-public" />
                                 </Radio>
                                 <Radio value="3">
-                                    <FormattedMessage id="formandbasic-form.radio.private" />
+                                    <FormattedMessage id="formandadd-competition.radio.private" />
                                 </Radio>
                             </Radio.Group>
                             <FormItem
@@ -269,7 +269,7 @@ const BasicForm = (props) => {
                                 <Select
                                     mode="multiple"
                                     placeholder={formatMessage({
-                                        id: 'formandbasic-form.publicUsers.placeholder',
+                                        id: 'formandadd-competition.publicUsers.placeholder',
                                     })}
                                     style={{
                                         margin: '8px 0',
@@ -277,13 +277,13 @@ const BasicForm = (props) => {
                                     }}
                                 >
                                     <Option value="1">
-                                        <FormattedMessage id="formandbasic-form.option.A" />
+                                        <FormattedMessage id="formandadd-competition.option.A" />
                                     </Option>
                                     <Option value="2">
-                                        <FormattedMessage id="formandbasic-form.option.B" />
+                                        <FormattedMessage id="formandadd-competition.option.B" />
                                     </Option>
                                     <Option value="3">
-                                        <FormattedMessage id="formandbasic-form.option.C" />
+                                        <FormattedMessage id="formandadd-competition.option.C" />
                                     </Option>
                                 </Select>
                             </FormItem>
@@ -296,14 +296,14 @@ const BasicForm = (props) => {
                         }}
                     >
                         <Button type="primary" htmlType="submit" loading={submitting}>
-                            <FormattedMessage id="formandbasic-form.form.submit" />
+                            <FormattedMessage id="formandadd-competition.form.submit" />
                         </Button>
                         <Button
                             style={{
                                 marginLeft: 8,
                             }}
                         >
-                            <FormattedMessage id="formandbasic-form.form.save" />
+                            <FormattedMessage id="formandadd-competition.form.save" />
                         </Button>
                     </FormItem>
                 </Form>

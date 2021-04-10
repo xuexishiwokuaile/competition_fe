@@ -15,7 +15,7 @@ export default {
     'menu.exception.404': '404',
     'menu.exception.500': '500',
     'menu.form': 'フォーム',
-    'menu.form.basic-form': '基本フォーム',
+    'menu.form.add-competition': '基本フォーム',
     'menu.form.step-form': 'ステップフォーム',
     'menu.form.step-form.info': 'ステップフォーム（転送情報の書き込み）',
     'menu.form.step-form.confirm': 'ステップフォーム（転送情報の確認）',
