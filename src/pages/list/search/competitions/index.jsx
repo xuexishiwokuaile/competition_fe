@@ -135,7 +135,7 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
             },
         },
     };
-    const loadMore = listData.length > 0 && (
+    const loadMore = listData.length !== list.length && (
         <div
             style={{
                 textAlign: 'center',
