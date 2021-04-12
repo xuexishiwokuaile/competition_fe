@@ -1,24 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Form, List, Row, Select, Tag } from 'antd';
-import { LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
+import { LoadingOutlined, FireOutlined, UserOutlined, MessageOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
 import ArticleListContent from './components/ArticleListContent';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import styles from './style.less';
+import { isArray } from 'lodash';
 const { Option } = Select;
 const FormItem = Form.Item;
 const pageSize = 5;
 
-const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types }, loading }) => {
+const Competitions = ({
+    dispatch,
+    listAndsearchAndcompetitions: { list, types, owners },
+    loading,
+}) => {
     const [form] = Form.useForm();
     const [listData, setListData] = useState([]);
+    const [order, setOrder] = useState('date');
+    const [currentOwner, setCurrentOwner] = useState('');
+    const [typeName, setTypeName] = useState('');
     const [offset, setOffset] = useState(1);
     useEffect(() => {
         dispatch({
             type: 'listAndsearchAndcompetitions/fetch',
             payload: {
-                count: pageSize,
+                typeName: typeName,
+                teaId: currentOwner,
+                order: order,
             },
         });
     }, []);
@@ -28,17 +38,56 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
         const temp = [];
         if (list.length) {
             for (let i = 0; i < pageSize; i++) {
+                if (i >= list.length) break;
                 temp.push(list[i]);
             }
         }
         setListData(temp);
-    }, [list]);
+    }, [list]); // list改变后重新执行该函数
 
     const setOwner = () => {
+        const key = +localStorage.getItem('userId');
+        setCurrentOwner(key);
         form.setFieldsValue({
-            owner: ['wzj'],
+            owner: [key],
+        });
+        // 发送请求
+        dispatch({
+            type: 'listAndsearchAndcompetitions/fetch',
+            payload: {
+                typeName: typeName,
+                teaId: key,
+                order: order,
+            },
         });
     };
+
+    // 选中owner时的回调
+    const onOwnerSelect = (key) => {
+        setCurrentOwner(key);
+        dispatch({
+            type: 'listAndsearchAndcompetitions/fetch',
+            payload: {
+                typeName: typeName,
+                teaId: key,
+                order: order,
+            },
+        });
+    };
+
+    // 选中排序方式时的回调
+    const onOrderSelect = (order) => {
+        setOrder(order);
+        dispatch({
+            type: 'listAndsearchAndcompetitions/fetch',
+            payload: {
+                typeName: typeName,
+                teaId: currentOwner,
+                order: order,
+            },
+        });
+    };
+
     const fetchMore = () => {
         const temp = [];
         for (let i = pageSize * offset; i < pageSize * offset + pageSize; i++) {
@@ -49,6 +98,22 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
         setOffset(offset + 1);
     };
 
+    const onValuesChange = (value) => {
+        // 获取选择的种类
+        if (isArray(value.category)) {
+            const typeName = value.category.toString();
+            setTypeName(typeName);
+            dispatch({
+                type: 'listAndsearchAndcompetitions/fetch',
+                payload: {
+                    typeName: typeName,
+                    teaId: currentOwner,
+                    order: order,
+                },
+            });
+        }
+    };
+
     // 获取所有竞赛种类
     useEffect(() => {
         dispatch({
@@ -56,35 +121,19 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
         });
     }, []);
 
-    const owners = [
-        {
-            id: 'wzj',
-            name: '我自己',
-        },
-        {
-            id: 'wjh',
-            name: '吴家豪',
-        },
-        {
-            id: 'zxx',
-            name: '周星星',
-        },
-        {
-            id: 'zly',
-            name: '赵丽颖',
-        },
-        {
-            id: 'ym',
-            name: '姚明',
-        },
-    ];
+    // 获取竞赛所有者
+    useEffect(() => {
+        dispatch({
+            type: 'listAndsearchAndcompetitions/fetchAllOwners',
+        });
+    }, []);
 
     const IconText = ({ type, text }) => {
         switch (type) {
             case 'star-o':
                 return (
                     <span>
-                        <StarOutlined
+                        <FireOutlined
                             style={{
                                 marginRight: 8,
                             }}
@@ -96,7 +145,7 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
             case 'like-o':
                 return (
                     <span>
-                        <LikeOutlined
+                        <UserOutlined
                             style={{
                                 marginRight: 8,
                             }}
@@ -165,17 +214,8 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
                 <Form
                     layout="inline"
                     form={form}
-                    initialValues={{
-                        owner: ['wjh', 'zxx'],
-                    }}
-                    onValuesChange={() => {
-                        dispatch({
-                            type: 'listAndsearchAndcompetitions/fetch',
-                            payload: {
-                                count: 8,
-                            },
-                        });
-                    }}
+                    initialValues={{}}
+                    onValuesChange={onValuesChange}
                 >
                     <StandardFormRow
                         title="所属种类"
@@ -197,12 +237,15 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
                     </StandardFormRow>
                     <StandardFormRow title="owner" grid>
                         <FormItem name="owner" noStyle>
-                            <Select mode="multiple" placeholder="选择 owner">
-                                {owners.map((owner) => (
-                                    <Option key={owner.id} value={owner.id}>
-                                        {owner.name}
-                                    </Option>
-                                ))}
+                            <Select mode="single" placeholder="选择 owner" onSelect={onOwnerSelect}>
+                                {owners &&
+                                    owners.map((owner) => (
+                                        <Option key={owner.id} value={owner.id}>
+                                            {owner.id == localStorage.getItem('userId')
+                                                ? '我自己'
+                                                : owner.name}
+                                        </Option>
+                                    ))}
                             </Select>
                         </FormItem>
                         <a className={styles.selfTrigger} onClick={setOwner}>
@@ -212,28 +255,17 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
                     <StandardFormRow title="其它选项" grid last>
                         <Row gutter={16}>
                             <Col xl={8} lg={10} md={12} sm={24} xs={24}>
-                                <FormItem {...formItemLayout} label="活跃用户" name="user">
+                                <FormItem {...formItemLayout} label="排序方式" name="order">
                                     <Select
-                                        placeholder="不限"
+                                        placeholder="时间"
                                         style={{
                                             maxWidth: 200,
                                             width: '100%',
                                         }}
+                                        onSelect={onOrderSelect}
                                     >
-                                        <Option value="lisa">李三</Option>
-                                    </Select>
-                                </FormItem>
-                            </Col>
-                            <Col xl={8} lg={10} md={12} sm={24} xs={24}>
-                                <FormItem {...formItemLayout} label="好评度" name="rate">
-                                    <Select
-                                        placeholder="不限"
-                                        style={{
-                                            maxWidth: 200,
-                                            width: '100%',
-                                        }}
-                                    >
-                                        <Option value="good">优秀</Option>
+                                        <Option value="date">时间</Option>
+                                        <Option value="hot">热度</Option>
                                     </Select>
                                 </FormItem>
                             </Col>
@@ -259,9 +291,9 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
                     dataSource={listData}
                     renderItem={(item) => (
                         <List.Item
-                            key={item.id}
+                            key={item.comId}
                             actions={[
-                                <IconText key="star" type="star-o" text={item.star} />,
+                                <IconText key="star" type="star-o" text={item.hot} />,
                                 <IconText key="like" type="like-o" text={item.like} />,
                                 <IconText key="message" type="message" text={item.message} />,
                             ]}
@@ -270,15 +302,8 @@ const Competitions = ({ dispatch, listAndsearchAndcompetitions: { list, types },
                             <List.Item.Meta
                                 title={
                                     <a className={styles.listItemMetaTitle} href={item.href}>
-                                        {item.title}
+                                        {item.name}
                                     </a>
-                                }
-                                description={
-                                    <span>
-                                        <Tag>Ant Design</Tag>
-                                        <Tag>设计语言</Tag>
-                                        <Tag>蚂蚁金服</Tag>
-                                    </span>
                                 }
                             />
                             <ArticleListContent data={item} />

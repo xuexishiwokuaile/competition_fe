@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Input } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import { history } from 'umi';
+import { connect } from 'umi';
 
 class Search extends Component {
     handleTabChange = (key) => {
@@ -27,7 +28,13 @@ class Search extends Component {
     };
     handleFormSubmit = (value) => {
         // eslint-disable-next-line no-console
-        console.log(value);
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'listAndsearchAndcompetitions/search',
+            payload: {
+                value: value,
+            },
+        });
     };
     getTabKey = () => {
         const { match, location } = this.props;
@@ -88,4 +95,6 @@ class Search extends Component {
     }
 }
 
-export default Search;
+export default connect(({ listAndsearchAndcompetitions }) => ({
+    listAndsearchAndcompetitions,
+}))(Search);

@@ -66,6 +66,8 @@ const Model = {
     reducers: {
         changeLoginStatus(state, { payload }) {
             setAuthority(payload.currentAuthority);
+            // 存储当前的userId和userName
+            localStorage.setItem('userId', payload.id);
             return { ...state, code: payload.code, type: payload.type };
         },
         doLogout(state) {

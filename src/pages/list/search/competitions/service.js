@@ -11,3 +11,11 @@ export async function queryFakeList(params) {
 export async function findAllTypes() {
     return request('/api/type/findAll');
 }
+
+export async function findAllOwners() {
+    return request('/api/competition/findAllOwners');
+}
+
+export async function searchCompetitions(params) {
+    return request('/api/search/searchCom', { params });
+}

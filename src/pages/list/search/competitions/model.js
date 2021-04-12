@@ -2,7 +2,7 @@
  * @Author: chenanran
  * @Date: 2021-04-08 13:19:41
  */
-import { queryFakeList, findAllTypes } from './service';
+import { queryFakeList, findAllTypes, findAllOwners, searchCompetitions } from './service';
 const Model = {
     namespace: 'listAndsearchAndcompetitions',
     state: {
@@ -23,13 +23,33 @@ const Model = {
                 payload: response,
             });
         },
+        *fetchAllOwners({ payload }, { call, put }) {
+            const response = yield call(findAllOwners);
+            yield put({
+                type: 'setOwners',
+                payload: response,
+            });
+        },
+        *search({ payload }, { call, put }) {
+            const response = yield call(searchCompetitions, payload);
+            yield put({
+                type: 'setSearch',
+                payload: response,
+            });
+        },
     },
     reducers: {
-        queryList(state, action) {
-            return { ...state, list: action.payload };
+        queryList(state, { payload }) {
+            return { ...state, list: payload };
         },
         setTypes(state, { payload }) {
             return { ...state, types: payload };
+        },
+        setOwners(state, { payload }) {
+            return { ...state, owners: payload };
+        },
+        setSearch(state, { payload }) {
+            return { ...state, list: payload };
         },
     },
 };
