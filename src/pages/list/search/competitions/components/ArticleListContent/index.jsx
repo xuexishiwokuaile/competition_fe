@@ -13,7 +13,7 @@ const ArticleListContent = ({ data: { detail, date, image, avatar, userName, url
         />
         <div className={styles.description}>{detail}</div>
         <div className={styles.extra}>
-            主页:  <a href={url}>{url}</a>
+            主页:  <a href={url} target="blank">{url}</a>
             <br />
             <Avatar src={avatar} size="small" />
             <a>{userName}</a> 发布

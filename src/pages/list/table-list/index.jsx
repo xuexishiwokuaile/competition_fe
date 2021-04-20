@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, message, Input, Drawer } from 'antd';
+import { Button, message, Input, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -84,9 +84,8 @@ const TableList = () => {
     const [selectedRowsState, setSelectedRows] = useState([]);
     const columns = [
         {
-            title: '规则名称',
+            title: '名称',
             dataIndex: 'name',
-            tip: '规则名称是唯一的 key',
             formItemProps: {
                 rules: [
                     {
@@ -100,16 +99,16 @@ const TableList = () => {
             },
         },
         {
-            title: '描述',
+            title: '简介',
             dataIndex: 'desc',
             valueType: 'textarea',
         },
         {
-            title: '服务调用次数',
+            title: '热度',
             dataIndex: 'callNo',
             sorter: true,
             hideInForm: true,
-            renderText: (val) => `${val} 万`,
+            renderText: (val) => `${val}`,
         },
         {
             title: '状态',
@@ -117,11 +116,11 @@ const TableList = () => {
             hideInForm: true,
             valueEnum: {
                 0: {
-                    text: '关闭',
+                    text: '比赛中',
                     status: 'Default',
                 },
                 1: {
-                    text: '运行中',
+                    text: '报名中',
                     status: 'Processing',
                 },
                 2: {
@@ -129,13 +128,13 @@ const TableList = () => {
                     status: 'Success',
                 },
                 3: {
-                    text: '异常',
+                    text: '已结束',
                     status: 'Error',
                 },
             },
         },
         {
-            title: '上次调度时间',
+            title: '创建时间',
             dataIndex: 'updatedAt',
             sorter: true,
             valueType: 'dateTime',
@@ -165,27 +164,23 @@ const TableList = () => {
                         setStepFormValues(record);
                     }}
                 >
-                    配置
+                    编辑
                 </a>,
-                <Divider type="vertical" />,
-                <a href="">订阅警报</a>,
             ],
         },
     ];
     return (
         <PageContainer>
             <ProTable
-                headerTitle="查询表格"
+                headerTitle="我的竞赛"
                 actionRef={actionRef}
                 rowKey="key"
-                search={{
-                    labelWidth: 120,
-                }}
-                toolBarRender={() => [
-                    <Button type="primary" onClick={() => handleModalVisible(true)}>
-                        <PlusOutlined /> 新建
-                    </Button>,
-                ]}
+                search={false}
+                // toolBarRender={() => [
+                //     <Button type="primary" onClick={() => handleModalVisible(true)}>
+                //         <PlusOutlined /> 新建
+                //     </Button>,
+                // ]}
                 request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
                 columns={columns}
                 rowSelection={{
@@ -205,14 +200,12 @@ const TableList = () => {
                                 {selectedRowsState.length}
                             </a>{' '}
                             项&nbsp;&nbsp;
-                            <span>
-                                服务调用次数总计{' '}
-                                {selectedRowsState.reduce((pre, item) => pre + item.callNo, 0)} 万
-                            </span>
                         </div>
                     }
                 >
                     <Button
+                        type="primary"
+                        danger
                         onClick={async () => {
                             await handleRemove(selectedRowsState);
                             setSelectedRows([]);
@@ -221,7 +214,6 @@ const TableList = () => {
                     >
                         批量删除
                     </Button>
-                    <Button type="primary">批量审批</Button>
                 </FooterToolbar>
             )}
             <CreateForm
