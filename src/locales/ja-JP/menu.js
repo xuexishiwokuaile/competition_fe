@@ -24,7 +24,7 @@ export default {
     'menu.list': 'リスト',
     'menu.list.my-competition': '検索テーブル',
     'menu.list.basic-list': '基本リスト',
-    'menu.list.card-list': 'カードリスト',
+    'menu.list.my-message': 'カードリスト',
     'menu.list.search-list': '検索リスト',
     'menu.list.search-list.competitions': '検索リスト(記事)',
     'menu.list.search-list.projects': '検索リスト(プロジェクト)',

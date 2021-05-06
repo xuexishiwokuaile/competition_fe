@@ -24,7 +24,7 @@ export default {
     'menu.list': 'Lista',
     'menu.list.my-competition': 'Tabela de Busca',
     'menu.list.basic-list': 'Lista Básica',
-    'menu.list.card-list': 'Lista de Card',
+    'menu.list.my-message': 'Lista de Card',
     'menu.list.search-list': 'Lista de Busca',
     'menu.list.search-list.competitions': 'Lista de Busca(artigos)',
     'menu.list.search-list.projects': 'Lista de Busca(projetos)',

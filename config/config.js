@@ -194,10 +194,10 @@ export default defineConfig({
                                             component: './list/basic-list',
                                         },
                                         {
-                                            name: 'card-list',
+                                            name: 'my-message',
                                             icon: 'smile',
-                                            path: '/list/card-list',
-                                            component: './list/card-list',
+                                            path: '/list/my-message',
+                                            component: './list/my-message',
                                         },
                                         {
                                             component: '404',

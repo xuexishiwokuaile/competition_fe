@@ -24,7 +24,7 @@ export default {
     'menu.list': 'List',
     'menu.list.my-competition': 'Search Table',
     'menu.list.basic-list': 'Basic List',
-    'menu.list.card-list': 'Card List',
+    'menu.list.my-message': 'Card List',
     'menu.list.search-list': 'Search List',
     'menu.list.search-list.competitions': 'Search List(competitions)',
     'menu.list.search-list.projects': 'Search List(projects)',

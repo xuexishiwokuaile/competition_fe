@@ -28,7 +28,7 @@ export default {
     'menu.list': '列表页',
     'menu.list.my-competition': '我的竞赛',
     'menu.list.basic-list': '标准列表',
-    'menu.list.card-list': '我的信息',
+    'menu.list.my-message': '我的信息',
     'menu.list.search-list': '搜索列表',
     'menu.list.search-list.competitions': '搜索列表（竞赛）',
     'menu.list.search-list.projects': '搜索列表（项目）',
