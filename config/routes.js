@@ -50,7 +50,7 @@ export default [
                                 ],
                             },
                             {
-                                name: 'list.table-list',
+                                name: 'list.my-competition',
                                 icon: 'table',
                                 path: '/list',
                                 component: './TableList',

@@ -1,13 +1,16 @@
+/*
+ * @Author: chenanran
+ * @Date: 2021-04-08 13:19:41
+ */
 import request from 'umi-request';
 export async function queryRule(params) {
-    return request('/api/rule', {
+    return request('/api/competition/findOneByTeaId', {
         params,
     });
 }
 export async function removeRule(params) {
-    return request('/api/rule', {
-        method: 'POST',
-        data: { ...params, method: 'delete' },
+    return request(`/api/competition/delete?id=${params.id}`, {
+        method: 'DELETE',
     });
 }
 export async function addRule(params) {
@@ -17,8 +20,8 @@ export async function addRule(params) {
     });
 }
 export async function updateRule(params) {
-    return request('/api/rule', {
-        method: 'POST',
-        data: { ...params, method: 'update' },
+    return request('/api/competition/update', {
+        method: 'PUT',
+        data: { ...params },
     });
 }

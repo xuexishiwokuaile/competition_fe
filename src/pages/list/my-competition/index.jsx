@@ -61,14 +61,16 @@ const handleRemove = async (selectedRows) => {
     const hide = message.loading('正在删除');
     if (!selectedRows) return true;
 
-    try {
-        await removeRule({
-            key: selectedRows.map((row) => row.key),
-        });
+    const result = await removeRule({
+        id: selectedRows.map((row) => row.comId).toString(),
+    });
+    if (result.code == 0) {
+        // 删除成功
         hide();
         message.success('删除成功，即将刷新');
         return true;
-    } catch (error) {
+    } else {
+        // 删除失败
         hide();
         message.error('删除失败，请重试');
         return false;
@@ -86,56 +88,48 @@ const TableList = () => {
         {
             title: '名称',
             dataIndex: 'name',
-            formItemProps: {
-                rules: [
-                    {
-                        required: true,
-                        message: '规则名称为必填项',
-                    },
-                ],
-            },
             render: (dom, entity) => {
                 return <a onClick={() => setRow(entity)}>{dom}</a>;
             },
         },
         {
             title: '简介',
-            dataIndex: 'desc',
+            dataIndex: 'detail',
             valueType: 'textarea',
         },
         {
             title: '热度',
-            dataIndex: 'callNo',
+            dataIndex: 'hot',
             sorter: true,
             hideInForm: true,
             renderText: (val) => `${val}`,
         },
-        {
-            title: '状态',
-            dataIndex: 'status',
-            hideInForm: true,
-            valueEnum: {
-                0: {
-                    text: '比赛中',
-                    status: 'Default',
-                },
-                1: {
-                    text: '报名中',
-                    status: 'Processing',
-                },
-                2: {
-                    text: '已上线',
-                    status: 'Success',
-                },
-                3: {
-                    text: '已结束',
-                    status: 'Error',
-                },
-            },
-        },
+        // {
+        //     title: '状态',
+        //     dataIndex: 'status',
+        //     hideInForm: true,
+        //     valueEnum: {
+        //         0: {
+        //             text: '比赛中',
+        //             status: 'Default',
+        //         },
+        //         1: {
+        //             text: '报名中',
+        //             status: 'Processing',
+        //         },
+        //         2: {
+        //             text: '已上线',
+        //             status: 'Success',
+        //         },
+        //         3: {
+        //             text: '已结束',
+        //             status: 'Error',
+        //         },
+        //     },
+        // },
         {
             title: '创建时间',
-            dataIndex: 'updatedAt',
+            dataIndex: 'date',
             sorter: true,
             valueType: 'dateTime',
             hideInForm: true,
@@ -174,14 +168,14 @@ const TableList = () => {
             <ProTable
                 headerTitle="我的竞赛"
                 actionRef={actionRef}
-                rowKey="key"
+                rowKey="comId"
                 search={false}
                 // toolBarRender={() => [
                 //     <Button type="primary" onClick={() => handleModalVisible(true)}>
                 //         <PlusOutlined /> 新建
                 //     </Button>,
                 // ]}
-                request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
+                request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })} // 获取数据
                 columns={columns}
                 rowSelection={{
                     onChange: (_, selectedRows) => setSelectedRows(selectedRows),

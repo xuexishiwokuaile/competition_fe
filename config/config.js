@@ -179,13 +179,13 @@ export default defineConfig({
                                         },
                                         {
                                             path: '/',
-                                            redirect: '/list/table-list',
+                                            redirect: '/list/my-competition',
                                         },
                                         {
-                                            name: 'table-list',
+                                            name: 'my-competition',
                                             icon: 'smile',
-                                            path: '/list/table-list',
-                                            component: './list/table-list',
+                                            path: '/list/my-competition',
+                                            component: './list/my-competition',
                                         },
                                         {
                                             name: 'basic-list',

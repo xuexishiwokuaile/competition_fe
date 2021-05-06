@@ -216,6 +216,7 @@ const BasicForm = (props) => {
                         name="invites"
                     >
                         <Dragger
+                            listType="picture"
                             onChange={onFileChange}
                             beforeUpload={() => false}
                             maxCount={1}
