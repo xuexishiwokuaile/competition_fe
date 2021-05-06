@@ -13,7 +13,7 @@ async function getFakeCaptcha(req, res) {
 
 export default {
     // 支持值为 Object 和 Array
-    'GET /api/user/findCurrentUser': [{
+    'GET /api/findCurrentUser': [{
         name: 'Serati Ma',
         avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
         id: '00000001',

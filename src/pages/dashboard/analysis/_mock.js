@@ -63,10 +63,7 @@ const salesTypeData = [
         x: '母婴产品',
         y: 1231,
     },
-    {
-        x: '其他',
-        y: 1231,
-    },
+
 ];
 const salesTypeDataOnline = [
     {
@@ -89,10 +86,7 @@ const salesTypeDataOnline = [
         x: '母婴产品',
         y: 121,
     },
-    {
-        x: '其他',
-        y: 111,
-    },
+
 ];
 const salesTypeDataOffline = [
     {
@@ -111,10 +105,7 @@ const salesTypeDataOffline = [
         x: '服饰箱包',
         y: 255,
     },
-    {
-        x: '其他',
-        y: 65,
-    },
+
 ];
 const offlineData = [];
 

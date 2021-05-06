@@ -48,7 +48,7 @@ export default {
     'formandadd-competition.image.label': '封面',
     'formandadd-competition.count.label': '人数',
     'formandadd-competition.count.placeholder': '请输入',
-    'formandadd-competition.public.label': '目标公开',
+    'formandadd-competition.public.label': '种类',
     'formandadd-competition.label.help': '客户、邀评人默认被分享',
     'formandadd-competition.radio.public': '公开',
     'formandadd-competition.radio.partially-public': '部分公开',

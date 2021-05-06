@@ -28,28 +28,7 @@ const ProportionSales = ({
         extra={
             <div className={styles.salesCardExtra}>
                 {dropdownGroup}
-                <div className={styles.salesTypeRadio}>
-                    <Radio.Group value={salesType} onChange={handleChangeSalesType}>
-                        <Radio.Button value="all">
-                            <FormattedMessage
-                                id="dashboardandanalysis.channel.all"
-                                defaultMessage="ALL"
-                            />
-                        </Radio.Button>
-                        <Radio.Button value="online">
-                            <FormattedMessage
-                                id="dashboardandanalysis.channel.online"
-                                defaultMessage="Online"
-                            />
-                        </Radio.Button>
-                        <Radio.Button value="stores">
-                            <FormattedMessage
-                                id="dashboardandanalysis.channel.stores"
-                                defaultMessage="Stores"
-                            />
-                        </Radio.Button>
-                    </Radio.Group>
-                </div>
+                
             </div>
         }
     >

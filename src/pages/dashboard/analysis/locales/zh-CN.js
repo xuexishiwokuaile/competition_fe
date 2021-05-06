@@ -1,3 +1,7 @@
+/*
+ * @Author: chenanran
+ * @Date: 2021-04-08 13:19:41
+ */
 export default {
     'dashboardandanalysis.analysis.test': '工专路 {no} 号店',
     'dashboardandanalysis.analysis.introduce': '指标说明',
@@ -9,7 +13,7 @@ export default {
     'dashboardandanalysis.analysis.day-visits': '日访问量',
     'dashboardandanalysis.analysis.week': '周同比',
     'dashboardandanalysis.analysis.day': '日同比',
-    'dashboardandanalysis.analysis.payments': '支付笔数',
+    'dashboardandanalysis.analysis.payments': '组队数',
     'dashboardandanalysis.analysis.conversion-rate': '转化率',
     'dashboardandanalysis.analysis.operational-effect': '运营活动效果',
     'dashboardandanalysis.analysis.sales-trend': '销售趋势',
@@ -21,12 +25,12 @@ export default {
     'dashboardandanalysis.analysis.search-users': '搜索用户数',
     'dashboardandanalysis.analysis.per-capita-search': '人均搜索次数',
     'dashboardandanalysis.analysis.online-top-search': '线上热门搜索',
-    'dashboardandanalysis.analysis.the-proportion-of-sales': '销售额类别占比',
+    'dashboardandanalysis.analysis.the-proportion-of-sales': '种类占比',
     'dashboardandanalysis.channel.all': '全部渠道',
     'dashboardandanalysis.channel.online': '线上',
     'dashboardandanalysis.channel.stores': '门店',
-    'dashboardandanalysis.analysis.sales': '销售额',
-    'dashboardandanalysis.analysis.traffic': '客流量',
+    'dashboardandanalysis.analysis.sales': '参赛数',
+    'dashboardandanalysis.analysis.traffic': '参加数',
     'dashboardandanalysis.table.rank': '排名',
     'dashboardandanalysis.table.search-keyword': '搜索关键词',
     'dashboardandanalysis.table.users': '用户数',

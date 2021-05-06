@@ -44,49 +44,45 @@ for (let i = 0; i < 50; i += 1) {
 
 const salesTypeData = [
     {
-        x: '家用电器',
-        y: 4544,
+        x: '数学',
+        y: 90,
     },
     {
-        x: '食用酒水',
-        y: 3321,
+        x: '物理',
+        y: 66,
     },
     {
-        x: '个护健康',
-        y: 3113,
+        x: '化学',
+        y: 62,
     },
     {
-        x: '服饰箱包',
-        y: 2341,
+        x: '生物',
+        y: 46,
     },
     {
-        x: '母婴产品',
-        y: 1231,
-    },
-    {
-        x: '其他',
-        y: 1231,
+        x: '计算机',
+        y: 116,
     },
 ];
 const salesTypeDataOnline = [
     {
-        x: '家用电器',
-        y: 244,
+        x: '数学',
+        y: 20,
     },
     {
-        x: '食用酒水',
+        x: '物理',
         y: 321,
     },
     {
-        x: '个护健康',
+        x: '化学',
         y: 311,
     },
     {
-        x: '服饰箱包',
+        x: '生物',
         y: 41,
     },
     {
-        x: '母婴产品',
+        x: '计算机',
         y: 121,
     },
     {
@@ -127,11 +123,11 @@ for (let i = 0; i < 10; i += 1) {
 
 const offlineChartData = [];
 
-for (let i = 0; i < 20; i += 1) {
+for (let i = 0; i < 16; i += 1) {
     offlineChartData.push({
-        x: new Date().getTime() + 1000 * 60 * 30 * i,
-        y1: Math.floor(Math.random() * 100) + 10,
-        y2: Math.floor(Math.random() * 100) + 10,
+        x: new Date("April 13, 2021").getTime() + 1000 * 60 * 30 * 24 * i,
+        y1: Math.floor(Math.random() * 10) + 10,
+        y2: Math.floor(Math.random() * 10) + 10,
     });
 }
 
