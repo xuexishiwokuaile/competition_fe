@@ -1,12 +1,21 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
-import { queryRule, updateRule, addRule, removeRule } from './service';
+import {
+    queryRule,
+    updateRule,
+    addRule,
+    removeRule,
+    findAllCompetitions,
+    addMessage,
+    updateMessage,
+    removeMessage,
+} from './service';
 /**
  * 添加节点
  *
@@ -77,6 +86,63 @@ const handleRemove = async (selectedRows) => {
     }
 };
 
+/**
+ * 添加信息
+ *
+ * @param message
+ */
+const handleAddMessage = async (fields) => {
+    const hide = message.loading('正在添加');
+    const result = await addMessage({ ...fields });
+
+    if (result.code == 0) {
+        hide();
+        message.success('添加成功');
+        return true;
+    } else {
+        hide();
+        message.error(result.msg);
+        return false;
+    }
+};
+
+const handleUpdateMessage = async (fields) => {
+    const hide = message.loading('正在更新');
+    const id = [];
+    id.push(fields.id);
+    const result = await updateMessage({ ...fields, id: id });
+
+    if (result.code == 0) {
+        hide();
+        message.success('更新成功');
+        return true;
+    } else {
+        hide();
+        message.error(result.msg);
+        return false;
+    }
+};
+
+const handleRemoveMessage = async (selectedRows) => {
+    const hide = message.loading('正在删除');
+    if (!selectedRows) return true;
+
+    const result = await removeMessage({
+        id: selectedRows.map((row) => row.id).toString(),
+    });
+    if (result.code == 0) {
+        // 删除成功
+        hide();
+        message.success('删除成功，即将刷新');
+        return true;
+    } else {
+        // 删除失败
+        hide();
+        message.error('删除失败，请重试');
+        return false;
+    }
+};
+
 const TableList = () => {
     const [createModalVisible, handleModalVisible] = useState(false);
     const [updateModalVisible, handleUpdateModalVisible] = useState(false);
@@ -84,25 +150,23 @@ const TableList = () => {
     const actionRef = useRef();
     const [row, setRow] = useState();
     const [selectedRowsState, setSelectedRows] = useState([]);
+    const [competitions, setCompetitions] = useState([]);
+    // 获取所有竞赛
+    useEffect(async () => {
+        setCompetitions(await findAllCompetitions());
+    }, []);
     const columns = [
         {
-            title: '名称',
+            title: '竞赛',
             dataIndex: 'name',
             render: (dom, entity) => {
                 return <a onClick={() => setRow(entity)}>{dom}</a>;
             },
         },
         {
-            title: '简介',
+            title: '详情',
             dataIndex: 'detail',
             valueType: 'textarea',
-        },
-        {
-            title: '热度',
-            dataIndex: 'hot',
-            sorter: true,
-            hideInForm: true,
-            renderText: (val) => `${val}`,
         },
         // {
         //     title: '状态',
@@ -128,26 +192,6 @@ const TableList = () => {
         //     },
         // },
         {
-            title: '创建时间',
-            dataIndex: 'date',
-            sorter: true,
-            valueType: 'dateTime',
-            hideInForm: true,
-            renderFormItem: (item, { defaultRender, ...rest }, form) => {
-                const status = form.getFieldValue('status');
-
-                if (`${status}` === '0') {
-                    return false;
-                }
-
-                if (`${status}` === '3') {
-                    return <Input {...rest} placeholder="请输入异常原因！" />;
-                }
-
-                return defaultRender(item);
-            },
-        },
-        {
             title: '操作',
             dataIndex: 'option',
             valueType: 'option',
@@ -168,13 +212,13 @@ const TableList = () => {
             <ProTable
                 headerTitle="我的信息"
                 actionRef={actionRef}
-                rowKey="comId"
+                rowKey="id"
                 search={false}
-                // toolBarRender={() => [
-                //     <Button type="primary" onClick={() => handleModalVisible(true)}>
-                //         <PlusOutlined /> 新建
-                //     </Button>,
-                // ]}
+                toolBarRender={() => [
+                    <Button type="primary" onClick={() => handleModalVisible(true)}>
+                        <PlusOutlined /> 新建
+                    </Button>,
+                ]}
                 request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })} // 获取数据
                 columns={columns}
                 rowSelection={{
@@ -201,7 +245,7 @@ const TableList = () => {
                         type="primary"
                         danger
                         onClick={async () => {
-                            await handleRemove(selectedRowsState);
+                            await handleRemoveMessage(selectedRowsState);
                             setSelectedRows([]);
                             actionRef.current?.reloadAndRest?.();
                         }}
@@ -211,30 +255,30 @@ const TableList = () => {
                 </FooterToolbar>
             )}
             <CreateForm
-                onCancel={() => handleModalVisible(false)}
+                onCancel={() => {
+                    handleModalVisible(false);
+                    setStepFormValues({});
+                }}
                 modalVisible={createModalVisible}
-            >
-                <ProTable
-                    onSubmit={async (value) => {
-                        const success = await handleAdd(value);
+                onSubmit={async (value) => {
+                    const success = await handleAddMessage(value);
 
-                        if (success) {
-                            handleModalVisible(false);
+                    if (success) {
+                        handleModalVisible(false);
+                        setStepFormValues({});
 
-                            if (actionRef.current) {
-                                actionRef.current.reload();
-                            }
+                        if (actionRef.current) {
+                            actionRef.current.reload();
                         }
-                    }}
-                    rowKey="key"
-                    type="form"
-                    columns={columns}
-                />
-            </CreateForm>
+                    }
+                }}
+                updateModalVisible={updateModalVisible}
+                competitions={competitions.data}
+            ></CreateForm>
             {stepFormValues && Object.keys(stepFormValues).length ? (
                 <UpdateForm
                     onSubmit={async (value) => {
-                        const success = await handleUpdate(value);
+                        const success = await handleUpdateMessage(value);
 
                         if (success) {
                             handleUpdateModalVisible(false);
