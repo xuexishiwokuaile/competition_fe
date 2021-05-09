@@ -54,14 +54,14 @@ class Search extends Component {
                 key: 'competitions',
                 tab: '竞赛',
             },
-            {
-                key: 'projects',
-                tab: '项目',
-            },
-            {
-                key: 'applications',
-                tab: '应用',
-            },
+            // {
+            //     key: 'projects',
+            //     tab: '项目',
+            // },
+            // {
+            //     key: 'applications',
+            //     tab: '应用',
+            // },
         ];
         const mainSearch = (
             <div
@@ -85,7 +85,6 @@ class Search extends Component {
         return (
             <PageContainer
                 content={mainSearch}
-                tabList={tabList}
                 tabActiveKey={this.getTabKey()}
                 onTabChange={this.handleTabChange}
             >

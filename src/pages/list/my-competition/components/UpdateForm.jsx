@@ -1,5 +1,19 @@
 import React, { useState } from 'react';
-import { Form, Button, DatePicker, Input, Modal, Radio, Select, Steps, Upload } from 'antd';
+import {
+    Form,
+    Button,
+    DatePicker,
+    Input,
+    Modal,
+    Radio,
+    Select,
+    Steps,
+    Upload,
+    InputNumber,
+    Checkbox,
+    Row,
+    Col,
+} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -21,6 +35,7 @@ const UpdateForm = (props) => {
         detail: props.values.detail,
         comId: props.values.comId,
         url: props.values.url,
+        currentTypes: props.values.types,
         target: '0',
         template: '0',
         type: '1',
@@ -29,21 +44,33 @@ const UpdateForm = (props) => {
     });
     const [currentStep, setCurrentStep] = useState(0);
     const [image, setImage] = useState(props.values.image);
+    const [selectedTypes, setSelectTypes] = useState(props.values.types);
     const [form] = Form.useForm();
     const {
         onSubmit: handleUpdate,
         onCancel: handleUpdateModalVisible,
         updateModalVisible,
         values,
+        types,
     } = props;
+    const status = true;
 
     const forward = () => setCurrentStep(currentStep + 1);
 
     const backward = () => setCurrentStep(currentStep - 1);
 
     const onFileChange = (info) => {
-        console.log(info.file);
         setImage(info.file);
+    };
+
+    const getDefaultValue = () => {
+        const typesStr = formVals.currentTypes;
+        const typesArr = typesStr ? typesStr.split(',') : [];
+        return typesArr;
+    };
+
+    const onTypeChange = (list) => {
+        setSelectTypes(list.toString());
     };
 
     const handleNext = async () => {
@@ -55,13 +82,16 @@ const UpdateForm = (props) => {
         // } else {
         //     handleUpdate({ ...formVals, ...fieldsValue });
         // }
+
         // 转化成formData
         const formData = new FormData();
         for (let key in fieldsValue) {
             formData.append(key, fieldsValue[key]);
         }
         formData.set('image', image);
-        handleUpdate({ ...formVals, ...fieldsValue });
+        formData.set('typeName', selectedTypes);
+        formData.append('id', formVals.comId);
+        handleUpdate(formData);
     };
 
     const renderContent = () => {
@@ -179,10 +209,26 @@ const UpdateForm = (props) => {
                         maxCount={1}
                         accept="image/*"
                         directory={false}
-                        fileList={[{ url: props.values.image }]}
+                        fileList={[{ url: props.values.image || '' }]}
                     >
                         <Button icon={<UploadOutlined />}>Upload</Button>
                     </Upload>
+                </FormItem>
+                <FormItem name="typeName" label="竞赛种类">
+                    <div>
+                        <Checkbox.Group onChange={onTypeChange} defaultValue={getDefaultValue}>
+                            <Row>
+                                {types &&
+                                    types.map((item) => (
+                                        <Col span={8}>
+                                            <Checkbox value={item.typeName} key={item.typeId}>
+                                                {item.typeName}
+                                            </Checkbox>
+                                        </Col>
+                                    ))}
+                            </Row>
+                        </Checkbox.Group>
+                    </div>
                 </FormItem>
             </>
         );
@@ -271,6 +317,7 @@ const UpdateForm = (props) => {
                     name: formVals.name,
                     detail: formVals.detail,
                     url: formVals.url,
+                    currentTypes: formVals.types,
                 }}
             >
                 {renderContent()}

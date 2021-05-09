@@ -1,12 +1,19 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
-import { queryRule, updateRule, addRule, removeRule } from './service';
+import {
+    queryRule,
+    updateRule,
+    addRule,
+    removeRule,
+    findTypes,
+    findCompetitionDetail,
+} from './service';
 /**
  * 添加节点
  *
@@ -36,18 +43,15 @@ const handleAdd = async (fields) => {
 const handleUpdate = async (fields) => {
     const hide = message.loading('正在配置');
 
-    try {
-        await updateRule({
-            name: fields.name,
-            desc: fields.desc,
-            key: fields.key,
-        });
+    const result = await updateRule(fields);
+
+    if (result.code == 0) {
         hide();
-        message.success('配置成功');
+        message.success('更新成功');
         return true;
-    } catch (error) {
+    } else {
         hide();
-        message.error('配置失败请重试！');
+        message.error('更新失败请重试！');
         return false;
     }
 };
@@ -84,6 +88,12 @@ const TableList = () => {
     const actionRef = useRef();
     const [row, setRow] = useState();
     const [selectedRowsState, setSelectedRows] = useState([]);
+    const [types, setTypes] = useState([]);
+
+    useEffect(async () => {
+        setTypes(await findTypes());
+    }, []);
+
     const columns = [
         {
             title: '名称',
@@ -153,9 +163,12 @@ const TableList = () => {
             valueType: 'option',
             render: (_, record) => [
                 <a
-                    onClick={() => {
+                    onClick={async () => {
+                        // 获取竞赛种类
+                        const competition = await findCompetitionDetail(record.comId);
+                        console.log("competition",competition);
                         handleUpdateModalVisible(true);
-                        setStepFormValues(record);
+                        setStepFormValues({ ...record, types: competition.typeName || '' });
                     }}
                 >
                     编辑
@@ -251,6 +264,7 @@ const TableList = () => {
                     }}
                     updateModalVisible={updateModalVisible}
                     values={stepFormValues}
+                    types={types}
                 />
             ) : null}
 

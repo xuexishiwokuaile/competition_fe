@@ -22,6 +22,12 @@ export async function addRule(params) {
 export async function updateRule(params) {
     return request('/api/competition/update', {
         method: 'PUT',
-        data: { ...params },
+        data: params,
     });
+}
+export async function findTypes() {
+    return request('/api/type/findAll');
+}
+export async function findCompetitionDetail(params) {
+    return request(`/api/competition/findOneById?id=${params}`);
 }
