@@ -23,8 +23,20 @@ class Analysis extends Component {
     componentDidMount() {
         const { dispatch } = this.props;
         this.reqRef = requestAnimationFrame(() => {
+            // dispatch({
+            //     type: 'dashboardAndanalysis/fetch',
+            // });
+            // 竞赛数据
             dispatch({
-                type: 'dashboardAndanalysis/fetch',
+                type: 'dashboardAndanalysis/fetchCompetitionData',
+            });
+            // 折线图数据
+            dispatch({
+                type: 'dashboardAndanalysis/fetchLineChartData',
+            });
+            // 饼状图数据
+            dispatch({
+                type: 'dashboardAndanalysis/fetchTypeData',
             });
         });
     }
@@ -47,25 +59,30 @@ class Analysis extends Component {
         this.setState({
             currentTabKey: key,
         });
-    };
-    handleRangePickerChange = (rangePickerValue) => {
+        // 获取折线图数据
         const { dispatch } = this.props;
-        this.setState({
-            rangePickerValue,
-        });
         dispatch({
-            type: 'dashboardAndanalysis/fetchSalesData',
+            type: 'dashboardAndanalysis/fetchLineChartData',
         });
     };
-    selectDate = (type) => {
-        const { dispatch } = this.props;
-        this.setState({
-            rangePickerValue: getTimeDistance(type),
-        });
-        dispatch({
-            type: 'dashboardAndanalysis/fetchSalesData',
-        });
-    };
+    // handleRangePickerChange = (rangePickerValue) => {
+    //     const { dispatch } = this.props;
+    //     this.setState({
+    //         rangePickerValue,
+    //     });
+    //     dispatch({
+    //         type: 'dashboardAndanalysis/fetchSalesData',
+    //     });
+    // };
+    // selectDate = (type) => {
+    //     const { dispatch } = this.props;
+    //     this.setState({
+    //         rangePickerValue: getTimeDistance(type),
+    //     });
+    //     dispatch({
+    //         type: 'dashboardAndanalysis/fetchSalesData',
+    //     });
+    // };
     isActive = (type) => {
         const { rangePickerValue } = this.state;
 
@@ -97,23 +114,13 @@ class Analysis extends Component {
         const { rangePickerValue, salesType, currentTabKey } = this.state;
         const { dashboardAndanalysis, loading } = this.props;
         const {
-            visitData,
-            visitData2,
-            salesData,
-            searchData,
             offlineData,
             offlineChartData,
             salesTypeData,
             salesTypeDataOnline,
             salesTypeDataOffline,
         } = dashboardAndanalysis;
-        let salesPieData;
-
-        if (salesType === 'all') {
-            salesPieData = salesTypeData;
-        } else {
-            salesPieData = salesType === 'online' ? salesTypeDataOnline : salesTypeDataOffline;
-        }
+        const salesPieData = salesTypeData;
 
         const menu = (
             <Menu>
@@ -128,43 +135,25 @@ class Analysis extends Component {
                 </Dropdown>
             </span>
         );
-        const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
+        const activeKey = currentTabKey || (offlineData[0] && offlineData[0].comId + '');
         return (
             <GridContent>
                 <React.Fragment>
-                    <IntroduceRow loading={loading} visitData={visitData} />
-                    <SalesCard
+                    {/* <IntroduceRow loading={loading} visitData={visitData} /> */}
+                    {/* <SalesCard
                         rangePickerValue={rangePickerValue}
                         salesData={salesData}
                         isActive={this.isActive}
                         handleRangePickerChange={this.handleRangePickerChange}
                         loading={loading}
                         selectDate={this.selectDate}
+                    /> */}
+                    <ProportionSales
+                        salesType={salesType}
+                        loading={loading}
+                        salesPieData={salesPieData}
+                        handleChangeSalesType={this.handleChangeSalesType}
                     />
-                    <Row
-                        gutter={24}
-                        style={{
-                            marginTop: 24,
-                        }}
-                    >
-                        <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-                            <TopSearch
-                                loading={loading}
-                                visitData2={visitData2}
-                                searchData={searchData}
-                                dropdownGroup={dropdownGroup}
-                            />
-                        </Col>
-                        <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-                            <ProportionSales
-                                dropdownGroup={dropdownGroup}
-                                salesType={salesType}
-                                loading={loading}
-                                salesPieData={salesPieData}
-                                handleChangeSalesType={this.handleChangeSalesType}
-                            />
-                        </Col>
-                    </Row>
                     <OfflineData
                         activeKey={activeKey}
                         loading={loading}
@@ -180,5 +169,8 @@ class Analysis extends Component {
 
 export default connect(({ dashboardAndanalysis, loading }) => ({
     dashboardAndanalysis,
-    loading: loading.effects['dashboardAndanalysis/fetch'],
+    loading:
+        loading.effects[
+            ('dashboardAndanalysis/fetchCompetitionData', 'dashboardAndanalysis/fetchLineChartData')
+        ],
 }))(Analysis);

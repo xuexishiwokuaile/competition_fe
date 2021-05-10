@@ -121,13 +121,13 @@ const TimelineChart = (props) => {
                     <Legend name="key" position="top" />
                     <Geom type="line" position="x*value" size={borderWidth} color="key" />
                 </Chart>
-                <div
+                {/* <div
                     style={{
                         marginRight: -20,
                     }}
                 >
                     <SliderGen />
-                </div>
+                </div> */}
             </div>
         </div>
     );

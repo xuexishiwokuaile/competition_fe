@@ -44,26 +44,25 @@ for (let i = 0; i < 50; i += 1) {
 
 const salesTypeData = [
     {
-        x: '家用电器',
-        y: 4544,
+        x: '数学',
+        y: 90,
     },
     {
-        x: '食用酒水',
-        y: 3321,
+        x: '物理',
+        y: 66,
     },
     {
-        x: '个护健康',
-        y: 3113,
+        x: '化学',
+        y: 62,
     },
     {
-        x: '服饰箱包',
-        y: 2341,
+        x: '生物',
+        y: 46,
     },
     {
-        x: '母婴产品',
-        y: 1231,
+        x: '计算机',
+        y: 116,
     },
-
 ];
 const salesTypeDataOnline = [
     {
@@ -86,7 +85,6 @@ const salesTypeDataOnline = [
         x: '母婴产品',
         y: 121,
     },
-
 ];
 const salesTypeDataOffline = [
     {
@@ -105,24 +103,23 @@ const salesTypeDataOffline = [
         x: '服饰箱包',
         y: 255,
     },
-
 ];
 const offlineData = [];
 
-for (let i = 0; i < 10; i += 1) {
+for (let i = 1; i < 10; i += 1) {
     offlineData.push({
-        name: `Stores ${i}`,
+        name: `竞赛 ${i}`,
         cvr: Math.ceil(Math.random() * 9) / 10,
     });
 }
 
 const offlineChartData = [];
 
-for (let i = 0; i < 20; i += 1) {
+for (let i = 0; i < 7; i += 1) {
     offlineChartData.push({
-        x: new Date().getTime() + 1000 * 60 * 30 * i,
-        y1: Math.floor(Math.random() * 100) + 10,
-        y2: Math.floor(Math.random() * 100) + 10,
+        x: new Date("April 13, 2021").getTime() + 1000 * 60 * 60 * 24 * i,
+        y1: Math.floor(Math.random() * 10) + 10,
+        y2: Math.floor(Math.random() * 10) + 10,
     });
 }
 
@@ -176,12 +173,11 @@ const getFakeChartData = {
     visitData2,
     salesData,
     searchData,
-    offlineData,
-    offlineChartData,
+    // offlineData,
+    // offlineChartData,
     salesTypeData,
     salesTypeDataOnline,
     salesTypeDataOffline,
-    radarData,
 };
 export default {
     'GET  /api/fake_chart_data': getFakeChartData,

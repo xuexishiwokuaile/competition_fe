@@ -166,7 +166,6 @@ const TableList = () => {
                     onClick={async () => {
                         // 获取竞赛种类
                         const competition = await findCompetitionDetail(record.comId);
-                        console.log("competition",competition);
                         handleUpdateModalVisible(true);
                         setStepFormValues({ ...record, types: competition.typeName || '' });
                     }}

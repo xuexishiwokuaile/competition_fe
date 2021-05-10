@@ -43,51 +43,91 @@ for (let i = 0; i < 50; i += 1) {
 }
 
 const salesTypeData = [
+    // {
+    //     x: '数学',
+    //     y: 90,
+    // },
+    // {
+    //     x: '物理',
+    //     y: 66,
+    // },
+    // {
+    //     x: '化学',
+    //     y: 62,
+    // },
+    // {
+    //     x: '生物',
+    //     y: 46,
+    // },
+    // {
+    //     x: '计算机',
+    //     y: 116,
+    // },
     {
-        x: '数学',
-        y: 90,
+        x: '家用电器',
+        y: 99,
     },
     {
-        x: '物理',
-        y: 66,
+        x: '食用酒水',
+        y: 188,
     },
     {
-        x: '化学',
-        y: 62,
+        x: '个护健康',
+        y: 344,
     },
     {
-        x: '生物',
-        y: 46,
-    },
-    {
-        x: '计算机',
-        y: 116,
-    },
-];
-const salesTypeDataOnline = [
-    {
-        x: '数学',
-        y: 20,
-    },
-    {
-        x: '物理',
-        y: 321,
-    },
-    {
-        x: '化学',
-        y: 311,
-    },
-    {
-        x: '生物',
-        y: 41,
-    },
-    {
-        x: '计算机',
-        y: 121,
+        x: '服饰箱包',
+        y: 255,
     },
     {
         x: '其他',
-        y: 111,
+        y: 65,
+    },
+];
+const salesTypeDataOnline = [
+    // {
+    //     x: '数学',
+    //     y: 20,
+    // },
+    // {
+    //     x: '物理',
+    //     y: 321,
+    // },
+    // {
+    //     x: '化学',
+    //     y: 311,
+    // },
+    // {
+    //     x: '生物',
+    //     y: 41,
+    // },
+    // {
+    //     x: '计算机',
+    //     y: 121,
+    // },
+    // {
+    //     x: '其他',
+    //     y: 111,
+    // },
+    {
+        x: '家用电器',
+        y: 99,
+    },
+    {
+        x: '食用酒水',
+        y: 188,
+    },
+    {
+        x: '个护健康',
+        y: 344,
+    },
+    {
+        x: '服饰箱包',
+        y: 255,
+    },
+    {
+        x: '其他',
+        y: 65,
     },
 ];
 const salesTypeDataOffline = [
@@ -373,7 +413,7 @@ radarOriginData.forEach((item) => {
 export default {
     'GET  /api/project/notice': getNotice,
     'GET  /api/activities': getActivities,
-    'GET  /api/fake_chart_data': {
+    'GET  /api/fake_chart_data1': {
         visitData,
         visitData2,
         salesData,

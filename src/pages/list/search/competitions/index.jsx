@@ -235,9 +235,9 @@ const Competitions = ({
                             </TagSelect>
                         </FormItem>
                     </StandardFormRow>
-                    <StandardFormRow title="owner" grid>
+                    <StandardFormRow title="所有者" grid>
                         <FormItem name="owner" noStyle>
-                            <Select mode="single" placeholder="选择 owner" onSelect={onOwnerSelect}>
+                            <Select mode="single" placeholder="选择所有者" onSelect={onOwnerSelect}>
                                 {owners &&
                                     owners.map((owner) => (
                                         <Option key={owner.id} value={owner.id}>

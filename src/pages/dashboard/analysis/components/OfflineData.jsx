@@ -1,9 +1,11 @@
-import { Card, Col, Row, Tabs } from 'antd';
+import { Card, Col, Row, Tabs, Typography } from 'antd';
 import { FormattedMessage, formatMessage } from 'umi';
 import React from 'react';
 import { TimelineChart, Pie } from './Charts';
 import NumberInfo from './NumberInfo';
 import styles from '../style.less';
+
+const { Text } = Typography;
 
 const CustomTab = ({ data, currentTabKey: currentKey }) => (
     <Row
@@ -14,7 +16,7 @@ const CustomTab = ({ data, currentTabKey: currentKey }) => (
         }}
     >
         <Col span={12}>
-            <NumberInfo
+            {/* <NumberInfo
                 title={data.name}
                 subTitle={
                     <FormattedMessage
@@ -25,9 +27,12 @@ const CustomTab = ({ data, currentTabKey: currentKey }) => (
                 gap={2}
                 total={`${data.cvr * 100}%`}
                 theme={currentKey !== data.name ? 'light' : undefined}
-            />
+            /> */}
+            <Text strong={currentKey === data.name} style={{ fontSize: '20px' }}>
+                {data.name}
+            </Text>
         </Col>
-        <Col
+        {/* <Col
             span={12}
             style={{
                 paddingTop: 36,
@@ -41,46 +46,52 @@ const CustomTab = ({ data, currentTabKey: currentKey }) => (
                 percent={data.cvr * 100}
                 height={64}
             />
-        </Col>
+        </Col> */}
     </Row>
 );
 
 const { TabPane } = Tabs;
 
-const OfflineData = ({ activeKey, loading, offlineData, offlineChartData, handleTabChange }) => (
-    <Card
-        loading={loading}
-        className={styles.offlineCard}
-        bordered={false}
-        style={{
-            marginTop: 32,
-        }}
-    >
-        <Tabs activeKey={activeKey} onChange={handleTabChange}>
-            {offlineData.map((shop) => (
-                <TabPane tab={<CustomTab data={shop} currentTabKey={activeKey} />} key={shop.name}>
-                    <div
-                        style={{
-                            padding: '0 24px',
-                        }}
+const OfflineData = ({ activeKey, loading, offlineData, offlineChartData, handleTabChange }) => {
+    return (
+        <Card
+            loading={loading}
+            className={styles.offlineCard}
+            bordered={false}
+            style={{
+                marginTop: 32,
+            }}
+        >
+            <Tabs activeKey={activeKey} onChange={handleTabChange}>
+                {offlineData.map((shop) => (
+                    <TabPane
+                        // tab={<CustomTab data={shop} currentTabKey={activeKey} />}
+                        tab={<p>{shop.name}</p>}
+                        key={shop.comId + ''}
                     >
-                        <TimelineChart
-                            height={400}
-                            data={offlineChartData}
-                            titleMap={{
-                                y1: formatMessage({
-                                    id: 'dashboardandanalysis.analysis.traffic',
-                                }),
-                                y2: formatMessage({
-                                    id: 'dashboardandanalysis.analysis.payments',
-                                }),
+                        <div
+                            style={{
+                                padding: '0 24px',
                             }}
-                        />
-                    </div>
-                </TabPane>
-            ))}
-        </Tabs>
-    </Card>
-);
+                        >
+                            <TimelineChart
+                                height={400}
+                                data={offlineChartData}
+                                titleMap={{
+                                    y1: formatMessage({
+                                        id: 'dashboardandanalysis.analysis.traffic',
+                                    }),
+                                    y2: formatMessage({
+                                        id: 'dashboardandanalysis.analysis.payments',
+                                    }),
+                                }}
+                            />
+                        </div>
+                    </TabPane>
+                ))}
+            </Tabs>
+        </Card>
+    );
+};
 
 export default OfflineData;

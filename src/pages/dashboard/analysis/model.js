@@ -1,4 +1,4 @@
-import { fakeChartData } from './service';
+import { fakeChartData, fetchLineChartData, fetchCompetitionData, fetchTypeData } from './service';
 const initState = {
     visitData: [],
     visitData2: [],
@@ -32,6 +32,36 @@ const Model = {
                 },
             });
         },
+
+        *fetchLineChartData(_, { call, put }) {
+            const response = yield call(fetchLineChartData);
+            yield put({
+                type: 'save',
+                payload: {
+                    offlineChartData: response,
+                },
+            });
+        },
+
+        *fetchCompetitionData(_, { call, put }) {
+            const response = yield call(fetchCompetitionData);
+            yield put({
+                type: 'save',
+                payload: {
+                    offlineData: response.data,
+                },
+            });
+        },
+
+        *fetchTypeData(_, {call,put}) {
+            const response = yield call(fetchTypeData);
+            yield put({
+                type: 'save',
+                payload: {
+                    salesTypeData: response,
+                },
+            });
+        }
     },
     reducers: {
         save(state, { payload }) {

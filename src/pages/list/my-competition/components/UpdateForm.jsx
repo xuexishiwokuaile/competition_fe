@@ -86,9 +86,11 @@ const UpdateForm = (props) => {
         // 转化成formData
         const formData = new FormData();
         for (let key in fieldsValue) {
-            formData.append(key, fieldsValue[key]);
+            if (key !== 'image') {
+                formData.append(key, fieldsValue[key]);
+            }
         }
-        formData.set('image', image);
+        formData.append('image', image);
         formData.set('typeName', selectedTypes);
         formData.append('id', formVals.comId);
         handleUpdate(formData);
@@ -209,7 +211,8 @@ const UpdateForm = (props) => {
                         maxCount={1}
                         accept="image/*"
                         directory={false}
-                        fileList={[{ url: props.values.image || '' }]}
+                        beforeUpload={() => false}
+                        defaultFileList={[{ url: props.values.image || '' }]}
                     >
                         <Button icon={<UploadOutlined />}>Upload</Button>
                     </Upload>
